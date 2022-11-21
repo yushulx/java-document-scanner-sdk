@@ -15,21 +15,26 @@ public class NativeLoader {
 	
 	
 	private static synchronized boolean loadNativeLibrary(String path, String name) {
-		File libPath = new File(path, name);
-		if (libPath.exists()) {
-			try {
-				System.load(new File(path, name).getAbsolutePath());
-				return true;
-			} catch (UnsatisfiedLinkError e) {
-				System.err.println(e);
-				return false;
-			}
+		if (name.contains("DynamsoftCorex") || name.contains("DynamsoftDocumentNormalizer") || name.contains("ddn")) {
+			File libPath = new File(path, name);
+			if (libPath.exists()) {
+				try {
+					System.load(new File(path, name).getAbsolutePath());
+					return true;
+				} catch (UnsatisfiedLinkError e) {
+					System.err.println(e);
+					return false;
+				}
 
-		} else
+			} else
+				return false;
+		}
+		else {
 			return false;
+		}
 	}
 
-	private static boolean extractResourceFiles(String dbrNativeLibraryPath, String dbrNativeLibraryName,
+	private static boolean extractResourceFiles(String ddnNativeLibraryPath, String ddnNativeLibraryName,
 			String tempFolder) throws IOException {
 		String[] filenames = null;
 		if (Utils.isWindows()) {
@@ -75,7 +80,7 @@ public class NativeLoader {
 		boolean ret = true;
 		
 		for (String file : filenames) {
-			ret &= extractAndLoadLibraryFile(dbrNativeLibraryPath, file, tempFolder);
+			ret &= extractAndLoadLibraryFile(ddnNativeLibraryPath, file, tempFolder);
 		}
 		
 		return ret;
@@ -84,28 +89,28 @@ public class NativeLoader {
 	public static boolean load() throws Exception {
 
 		// Load the os-dependent library from the jar file
-		String dbrNativeLibraryName = System.mapLibraryName("dbr");
-		if (dbrNativeLibraryName != null && dbrNativeLibraryName.endsWith("dylib")) {
-			dbrNativeLibraryName = dbrNativeLibraryName.replace("dylib", "jnilib");
+		String ddnNativeLibraryName = System.mapLibraryName("ddn");
+		if (ddnNativeLibraryName != null && ddnNativeLibraryName.endsWith("dylib")) {
+			ddnNativeLibraryName = ddnNativeLibraryName.replace("dylib", "jnilib");
 		}
 
-		String dbrNativeLibraryPath = "/com/dynamsoft/ddn/native";
+		String ddnNativeLibraryPath = "/com/dynamsoft/ddn/native";
 		if (Utils.isWindows()) {
-			dbrNativeLibraryPath = "/com/dynamsoft/ddn/native/win";
+			ddnNativeLibraryPath = "/com/dynamsoft/ddn/native/win";
 		}
 		else if (Utils.isLinux()) {
-			dbrNativeLibraryPath = "/com/dynamsoft/ddn/native/linux";
+			ddnNativeLibraryPath = "/com/dynamsoft/ddn/native/linux";
 		}
 
-		if (NativeDocumentScanner.class.getResource(dbrNativeLibraryPath + "/" + dbrNativeLibraryName) == null) {
-			throw new Exception("Error loading native library: " + dbrNativeLibraryPath + "/" + dbrNativeLibraryName);
+		if (NativeDocumentScanner.class.getResource(ddnNativeLibraryPath + "/" + ddnNativeLibraryName) == null) {
+			throw new Exception("Error loading native library: " + ddnNativeLibraryPath + "/" + ddnNativeLibraryName);
 		}
 
 		// Temporary library folder
 		String tempFolder = new File(System.getProperty("java.io.tmpdir")).getAbsolutePath();
 
 		// Extract resource files
-		return extractResourceFiles(dbrNativeLibraryPath, dbrNativeLibraryName, tempFolder);
+		return extractResourceFiles(ddnNativeLibraryPath, ddnNativeLibraryName, tempFolder);
 	}
 
 	static String md5sum(InputStream input) throws IOException {

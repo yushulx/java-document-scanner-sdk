@@ -12,7 +12,7 @@ extern "C"
 	* Method:    nativeInitLicense
 	* Signature: (JLjava/lang/String;)I
 	*/
-	JNIEXPORT jint JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeInitLicense(JNIEnv *env, jclass, jlong, jstring license)
+	JNIEXPORT jint JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeInitLicense(JNIEnv *env, jclass, jstring license)
 	{
 		const char *pszLicense = env->GetStringUTFChars(license, NULL);
 		char errorMsgBuffer[512];
@@ -24,20 +24,20 @@ extern "C"
 
 	/*
 	* Class:     com_dynamsoft_ddn_NativeDocumentScanner
-	* Method:    nativeDestroyInstance
+	* Method:    nativeCreateInstance
 	* Signature: (J)V
 	*/
-	JNIEXPORT void JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeDestroyInstance(JNIEnv *, jobject)
+	JNIEXPORT jlong JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeCreateInstance(JNIEnv *, jobject)
 	{
 		return (jlong)DDN_CreateInstance();
 	}
 
 	/*
-	* Class:     com_dynamsoft_barcode_NativeDocumentScanner
+	* Class:     com_dynamsoft_ddn_NativeDocumentScanner
 	* Method:    nativeDestroyInstance
 	* Signature: (J)V
 	*/
-	JNIEXPORT void JNICALL Java_com_dynamsoft_barcode_NativeDocumentScanner_nativeDestroyInstance(JNIEnv *, jobject, jlong handler)
+	JNIEXPORT void JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeDestroyInstance(JNIEnv *, jobject, jlong handler)
 	{
 		if (handler)
 		{
@@ -46,38 +46,44 @@ extern "C"
 	}
 
 	/*
-	* Class:     com_dynamsoft_barcode_NativeDocumentScanner
-	* Method:    nativeDecodeFile
+	* Class:     com_dynamsoft_ddn_NativeDocumentScanner
+	* Method:    nativeDetectFile
 	* Signature: (JLjava/lang/String;)V
 	*/
-	JNIEXPORT void JNICALL Java_com_dynamsoft_barcode_NativeDocumentScanner_nativeDecodeFile(JNIEnv *env, jobject, jlong ptr, jstring fileName)
+	JNIEXPORT void JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeDetectFile(JNIEnv *env, jobject, jlong ptr, jstring fileName)
 	{
 		if (ptr)
 		{
 			void *handler = (void *)ptr;
 			const char *pszFileName = env->GetStringUTFChars(fileName, NULL);
+			printf("Detecting %s", pszFileName);
 
-			DBR_DecodeFile(handler, pszFileName, "");
+			// DBR_DecodeFile(handler, pszFileName, "");
 
-			TextResultArray *paryResult = NULL;
-			DBR_GetAllTextResults(handler, &paryResult);
+			// TextResultArray *paryResult = NULL;
+			// DBR_GetAllTextResults(handler, &paryResult);
 
-			int count = paryResult->resultsCount;
-			for (int index = 0; index < paryResult->resultsCount; index++)
-			{
-				printf("Barcode %d:\n", index + 1);
-				printf("    Type: %s\n", paryResult->results[index]->barcodeFormatString);
-				printf("    Text: %s\n", paryResult->results[index]->barcodeText);
-			}
+			// int count = paryResult->resultsCount;
+			// for (int index = 0; index < paryResult->resultsCount; index++)
+			// {
+			// 	printf("Barcode %d:\n", index + 1);
+			// 	printf("    Type: %s\n", paryResult->results[index]->barcodeFormatString);
+			// 	printf("    Text: %s\n", paryResult->results[index]->barcodeText);
+			// }
 
-			// Release memory
-			DBR_FreeTextResults(&paryResult);
+			// // Release memory
+			// DBR_FreeTextResults(&paryResult);
 
 			env->ReleaseStringUTFChars(fileName, pszFileName);
 		}
 	}
 
-	JNIEXPORT jstring JNICALL Java_com_dynamsoft_barcode_NativeDocumentScanner_nativeGetVersion(JNIEnv *env, jobject) 
+	/*
+	 * Class:     com_dynamsoft_ddn_NativeDocumentScanner
+	 * Method:    nativeGetVersion
+	 * Signature: ()Ljava/lang/String;
+	 */
+	JNIEXPORT jstring JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeGetVersion(JNIEnv *env, jobject) 
 	{
 		const char *version = DDN_GetVersion();
 		return env->NewStringUTF(version);

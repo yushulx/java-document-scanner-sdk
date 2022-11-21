@@ -13,7 +13,7 @@ extern "C" {
  * Signature: (JLjava/lang/String;)I
  */
 JNIEXPORT jint JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeInitLicense
-  (JNIEnv *, jclass, jlong, jstring);
+  (JNIEnv *, jclass, jstring);
 
 /*
  * Class:     com_dynamsoft_ddn_NativeDocumentScanner

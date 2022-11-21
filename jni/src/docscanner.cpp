@@ -22,9 +22,6 @@ error_out(PyObject *m)
     return NULL;
 }
 
-#define DBR_NO_MEMORY 0
-#define DBR_SUCCESS 1
-
 // #define LOG_OFF
 
 #ifdef LOG_OFF
@@ -56,7 +53,7 @@ static PyObject *initLicense(PyObject *obj, PyObject *args)
     }
 
     char errorMsgBuffer[512];
-	// Click https://www.dynamsoft.com/customer/license/trialLicense/?product=dbr to get a trial license.
+	// Click https://www.dynamsoft.com/customer/license/trialLicense/?product=ddn to get a trial license.
 	int ret = DC_InitLicense(pszLicense, errorMsgBuffer, 512);
 	printf("DC_InitLicense: %s\n", errorMsgBuffer);
 

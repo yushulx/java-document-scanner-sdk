@@ -1,5 +1,5 @@
 # Java Document Scanner SDK for Windows and Linux
-The repository is a Java wrapper for [Dynamsoft Document Normalizer](https://www.dynamsoft.com/barcode-reader/overview/). It supports document edge detection and document normalization. 
+The repository is a Java wrapper for [Dynamsoft Document Normalizer](https://www.dynamsoft.com/document-normalizer/docs/introduction/?ver=latest). It supports document edge detection and document normalization. 
 
 ## License Key
 Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense/?product=ddn).
@@ -36,9 +36,9 @@ cmake --build . --config Release --target install
 mvn package
 ```
 
-## Test the Jar Package for Barcode Reading
+## Test the Jar Package for Document Scanning
 
 ```
-java -cp target/barcode-1.0.0.jar com.dynamsoft.ddn.Test <image file>
+java -cp target/ddn-1.0.0.jar com.dynamsoft.ddn.Test <image file>
 ```
 

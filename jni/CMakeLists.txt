@@ -35,9 +35,9 @@ include_directories("${PROJECT_BINARY_DIR}" "${PROJECT_SOURCE_DIR}/include/")
 # Add the library
 add_library(ddn SHARED NativeDocumentScanner.cxx)
 if(WINDOWS)
-    target_link_libraries (${PROJECT_NAME} "DynamsoftDocumentNormalizerx64")
+    target_link_libraries (${PROJECT_NAME} "DynamsoftCorex64" "DynamsoftDocumentNormalizerx64")
 else()
-    target_link_libraries (${PROJECT_NAME} "DynamsoftDocumentNormalizer" pthread)
+    target_link_libraries (${PROJECT_NAME} "DynamsoftCore" "DynamsoftDocumentNormalizer" pthread)
 endif()
 
 # if(WINDOWS)

@@ -7,7 +7,7 @@ public class NativeDocumentScanner {
 	static {
 		try {
 			if (NativeLoader.load()) {
-				System.out.println("Successfully loaded Dynamsoft Barcode Reader.");
+				System.out.println("Successfully loaded Dynamsoft Document Normalizer.");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -25,7 +25,7 @@ public class NativeDocumentScanner {
 	}
 	
 	public static int setLicense(String license) {
-		nativeInitLicense(license);
+		return nativeInitLicense(license);
 	}
 	
 	public void detectFile(String fileName) {
@@ -36,7 +36,7 @@ public class NativeDocumentScanner {
 		return nativeGetVersion();
 	}
 
-	private native static int nativeInitLicense(long nativePtr, String license);
+	private native static int nativeInitLicense(String license);
 	
 	private native long nativeCreateInstance();
 	
