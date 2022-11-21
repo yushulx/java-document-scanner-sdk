@@ -10,7 +10,7 @@ extern "C" {
 /*
  * Class:     com_dynamsoft_ddn_NativeDocumentScanner
  * Method:    nativeInitLicense
- * Signature: (JLjava/lang/String;)I
+ * Signature: (Ljava/lang/String;)I
  */
 JNIEXPORT jint JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeInitLicense
   (JNIEnv *, jclass, jstring);
@@ -34,9 +34,9 @@ JNIEXPORT void JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeDestro
 /*
  * Class:     com_dynamsoft_ddn_NativeDocumentScanner
  * Method:    nativeDetectFile
- * Signature: (JLjava/lang/String;)V
+ * Signature: (JLjava/lang/String;)Ljava/util/ArrayList;
  */
-JNIEXPORT void JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeDetectFile
+JNIEXPORT jobject JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeDetectFile
   (JNIEnv *, jobject, jlong, jstring);
 
 /*

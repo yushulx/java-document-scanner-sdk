@@ -18,6 +18,7 @@ extern "C"
 		char errorMsgBuffer[512];
 		// Click https://www.dynamsoft.com/customer/license/trialLicense/?product=ddn to get a trial license.
 		int ret = DC_InitLicense(pszLicense, errorMsgBuffer, 512);
+		printf("DC_InitLicense: %s\n", errorMsgBuffer);
 		env->ReleaseStringUTFChars(license, pszLicense);
 		return ret;
 	}
@@ -50,32 +51,75 @@ extern "C"
 	* Method:    nativeDetectFile
 	* Signature: (JLjava/lang/String;)V
 	*/
-	JNIEXPORT void JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeDetectFile(JNIEnv *env, jobject, jlong ptr, jstring fileName)
+	JNIEXPORT jobject JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeDetectFile(JNIEnv *env, jobject, jlong ptr, jstring fileName)
 	{
+		jobject arrayList = NULL;
 		if (ptr)
 		{
+			jclass documentResultClass = env->FindClass("com/dynamsoft/ddn/DocumentResult");
+			if (NULL == documentResultClass)
+				printf("FindClass failed\n");
+
+			jmethodID documentResultConstructor = env->GetMethodID(documentResultClass, "<init>", "(IIIIIIIII)V");
+			if (NULL == documentResultConstructor)
+				printf("GetMethodID failed\n");
+
+			jclass arrayListClass = env->FindClass("java/util/ArrayList");
+			if (NULL == arrayListClass)
+				printf("FindClass failed\n");
+
+			jmethodID arrayListConstructor = env->GetMethodID(arrayListClass, "<init>", "()V");
+			if (NULL == arrayListConstructor)
+				printf("GetMethodID failed\n");
+
+			jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
+			if (NULL == arrayListAdd)
+				printf("GetMethodID failed\n");
+
 			void *handler = (void *)ptr;
 			const char *pszFileName = env->GetStringUTFChars(fileName, NULL);
 			printf("Detecting %s", pszFileName);
 
-			// DBR_DecodeFile(handler, pszFileName, "");
+			DetectedQuadResultArray *pResults = NULL;
+    
+			int ret = DDN_DetectQuadFromFile(handler, pszFileName, "", &pResults);
+			if (ret)
+			{
+				printf("Detection error: %s\n", DC_GetErrorString(ret));
+			}
 
-			// TextResultArray *paryResult = NULL;
-			// DBR_GetAllTextResults(handler, &paryResult);
+			if (pResults)
+			{
+				int count = pResults->resultsCount;
+				arrayList = env->NewObject(arrayListClass, arrayListConstructor);
+			
+				for (int i = 0; i < count; i++)
+				{
+					DetectedQuadResult *quadResult = pResults->detectedQuadResults[i];
+					int confidence = quadResult->confidenceAsDocumentBoundary;
+					DM_Point *points = quadResult->location->points;
+					int x1 = points[0].coordinate[0];
+					int y1 = points[0].coordinate[1];
+					int x2 = points[1].coordinate[0];
+					int y2 = points[1].coordinate[1];
+					int x3 = points[2].coordinate[0];
+					int y3 = points[2].coordinate[1];
+					int x4 = points[3].coordinate[0];
+					int y4 = points[3].coordinate[1];
+					
+					jobject object = env->NewObject(documentResultClass, documentResultConstructor, confidence, x1, y1, x2, y2, x3, y3, x4, y4);
 
-			// int count = paryResult->resultsCount;
-			// for (int index = 0; index < paryResult->resultsCount; index++)
-			// {
-			// 	printf("Barcode %d:\n", index + 1);
-			// 	printf("    Type: %s\n", paryResult->results[index]->barcodeFormatString);
-			// 	printf("    Text: %s\n", paryResult->results[index]->barcodeText);
-			// }
+					env->CallBooleanMethod(arrayList, arrayListAdd, object);
+				}
+			}
 
-			// // Release memory
-			// DBR_FreeTextResults(&paryResult);
+			if (pResults != NULL)
+        		DDN_FreeDetectedQuadResultArray(&pResults);
 
 			env->ReleaseStringUTFChars(fileName, pszFileName);
 		}
+
+		return arrayList;
 	}
 
 	/*

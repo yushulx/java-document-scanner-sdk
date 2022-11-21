@@ -1,5 +1,5 @@
 package com.dynamsoft.ddn;
-
+import java.util.ArrayList;
 public class Test {
 
 	public static void main(String[] args) {
@@ -10,10 +10,19 @@ public class Test {
 		}
 		String fileName = args[0];
 		try {
-			NativeDocumentScanner.setLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==");
+			int ret = NativeDocumentScanner.setLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==");
 			NativeDocumentScanner scanner = new NativeDocumentScanner();
 			System.out.println("Version number: " + scanner.getVersion());
-			scanner.detectFile(fileName);
+			ArrayList<DocumentResult> results = (ArrayList<DocumentResult>)scanner.detectFile(fileName);
+			if (results != null) {
+				for (DocumentResult result : results) {
+					System.out.println("Confidence: " + result.confidence);
+					System.out.println("x1: " + result.x1 + ", y1: " + result.y1);
+					System.out.println("x2: " + result.x2 + ", y2: " + result.y2);
+					System.out.println("x3: " + result.x3 + ", y3: " + result.y3);
+					System.out.println("x4: " + result.x4 + ", y4: " + result.y4);
+				}
+			}
 			scanner.destroyInstance();
 
 		} catch (Exception e) {

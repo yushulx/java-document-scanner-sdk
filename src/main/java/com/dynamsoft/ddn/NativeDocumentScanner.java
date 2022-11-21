@@ -1,5 +1,7 @@
 package com.dynamsoft.ddn;
 
+import java.util.ArrayList;
+
 public class NativeDocumentScanner {
 	
 	private long nativePtr = 0;
@@ -28,8 +30,8 @@ public class NativeDocumentScanner {
 		return nativeInitLicense(license);
 	}
 	
-	public void detectFile(String fileName) {
-		nativeDetectFile(nativePtr, fileName);
+	public ArrayList<DocumentResult> detectFile(String fileName) {
+		return nativeDetectFile(nativePtr, fileName);
 	}
 
 	public String getVersion() {
@@ -42,7 +44,7 @@ public class NativeDocumentScanner {
 	
 	private native void nativeDestroyInstance(long nativePtr);
 	
-	private native void nativeDetectFile(long nativePtr, String fileName);
+	private native ArrayList<DocumentResult> nativeDetectFile(long nativePtr, String fileName);
 
 	private native String nativeGetVersion();
 }
