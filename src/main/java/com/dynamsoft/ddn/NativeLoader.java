@@ -15,7 +15,7 @@ public class NativeLoader {
 	
 	
 	private static synchronized boolean loadNativeLibrary(String path, String name) {
-		if (name.contains("DynamsoftCorex") || name.contains("DynamsoftDocumentNormalizer") || name.contains("ddn")) {
+		if (name.contains("ddn")) {
 			File libPath = new File(path, name);
 			if (libPath.exists()) {
 				try {
@@ -71,10 +71,10 @@ public class NativeLoader {
 			"ucrtbase.dll",
 			"vccorlib140.dll",
 			"vcomp140.dll",
-			"vcruntime140.dll"};
+			"vcruntime140.dll", "ddn.dll"};
 		}
 		else if (Utils.isLinux()) {
-			filenames = new String[] {"libDynamicImage.so", "libDynamicPdf.so", "libDynamicPdfCore.so", "libDynamsoftCore.so", "libDynamsoftDocumentNormalizer.so", "libDynamsoftImageProcessing.so", "libDynamsoftIntermediateResult.so"};
+			filenames = new String[] {"libddn.so", "libDynamicImage.so", "libDynamicPdf.so", "libDynamicPdfCore.so", "libDynamsoftCore.so", "libDynamsoftDocumentNormalizer.so", "libDynamsoftImageProcessing.so", "libDynamsoftIntermediateResult.so"};
 		}
 		
 		boolean ret = true;
