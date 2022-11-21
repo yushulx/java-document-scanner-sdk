@@ -13,6 +13,8 @@ public class Test {
 			int ret = NativeDocumentScanner.setLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==");
 			NativeDocumentScanner scanner = new NativeDocumentScanner();
 			System.out.println("Version number: " + scanner.getVersion());
+			ret = scanner.setParameters(Template.color);
+			System.out.println("Set parameters: " + ret);
 			ArrayList<DocumentResult> results = (ArrayList<DocumentResult>)scanner.detectFile(fileName);
 			if (results != null) {
 				for (DocumentResult result : results) {

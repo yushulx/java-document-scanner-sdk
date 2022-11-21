@@ -133,6 +133,57 @@ extern "C"
 		return env->NewStringUTF(version);
 	}
 
+	/*
+	* Class:     com_dynamsoft_ddn_NativeDocumentScanner
+	* Method:    nativeNormalizeFile
+	* Signature: (JLjava/lang/String;)Lcom/dynamsoft/ddn/NormalizedImage;
+	*/
+	JNIEXPORT jobject JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeNormalizeFile(JNIEnv *, jobject, jlong, jstring)
+	{
+		return NULL;
+	}
+
+	/*
+	* Class:     com_dynamsoft_ddn_NativeDocumentScanner
+	* Method:    nativeSetParameters
+	* Signature: (JLjava/lang/String;)I
+	*/
+	JNIEXPORT jint JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeSetParameters(JNIEnv *env, jobject, jlong ptr, jstring parameters)
+	{
+		if (ptr)
+		{
+			void *handler = (void *)ptr;
+			const char *params = env->GetStringUTFChars(parameters, NULL);
+			char errorMsgBuffer[512];
+			int ret = DDN_InitRuntimeSettingsFromString(handler, params, errorMsgBuffer, 512);
+			printf("Init runtime settings: %s\n", errorMsgBuffer);
+
+			env->ReleaseStringUTFChars(parameters, params);
+			return ret;
+		}
+		
+		return -1;
+	}
+
+	/*
+	* Class:     com_dynamsoft_ddn_NativeDocumentScanner
+	* Method:    nativeSaveImage
+	* Signature: (JLcom/dynamsoft/ddn/NormalizedImage;Ljava/lang/String;)I
+	*/
+	JNIEXPORT jint JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeSaveImage(JNIEnv *, jobject, jlong, jobject, jstring)
+	{
+		return 0;
+	}
+
+	/*
+	* Class:     com_dynamsoft_ddn_NativeDocumentScanner
+	* Method:    nativeFreeImage
+	* Signature: (JLcom/dynamsoft/ddn/NormalizedImage;)V
+	*/
+	JNIEXPORT void JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeFreeImage(JNIEnv *, jobject, jlong, jobject)
+	{
+	}
+	
 #ifdef __cplusplus
 }
 #endif

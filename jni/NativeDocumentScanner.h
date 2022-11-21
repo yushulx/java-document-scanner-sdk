@@ -47,6 +47,38 @@ JNIEXPORT jobject JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeDet
 JNIEXPORT jstring JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeGetVersion
   (JNIEnv *, jobject);
 
+/*
+ * Class:     com_dynamsoft_ddn_NativeDocumentScanner
+ * Method:    nativeNormalizeFile
+ * Signature: (JLjava/lang/String;)Lcom/dynamsoft/ddn/NormalizedImage;
+ */
+JNIEXPORT jobject JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeNormalizeFile
+  (JNIEnv *, jobject, jlong, jstring);
+
+/*
+ * Class:     com_dynamsoft_ddn_NativeDocumentScanner
+ * Method:    nativeSetParameters
+ * Signature: (JLjava/lang/String;)I
+ */
+JNIEXPORT jint JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeSetParameters
+  (JNIEnv *, jobject, jlong, jstring);
+
+/*
+ * Class:     com_dynamsoft_ddn_NativeDocumentScanner
+ * Method:    nativeSaveImage
+ * Signature: (JLcom/dynamsoft/ddn/NormalizedImage;Ljava/lang/String;)I
+ */
+JNIEXPORT jint JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeSaveImage
+  (JNIEnv *, jobject, jlong, jobject, jstring);
+
+/*
+ * Class:     com_dynamsoft_ddn_NativeDocumentScanner
+ * Method:    nativeFreeImage
+ * Signature: (JLcom/dynamsoft/ddn/NormalizedImage;)V
+ */
+JNIEXPORT void JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeFreeImage
+  (JNIEnv *, jobject, jlong, jobject);
+
 #ifdef __cplusplus
 }
 #endif

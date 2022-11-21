@@ -38,6 +38,22 @@ public class NativeDocumentScanner {
 		return nativeGetVersion();
 	}
 
+	public NormalizedImage normalizeFile(String fileName) {
+		return nativeNormalizeFile(nativePtr, fileName);	
+	}
+
+	public int setParameters(String parameters) {
+		return nativeSetParameters(nativePtr, parameters);
+	}
+
+	public int saveImage(NormalizedImage image, String fileName) {
+		return nativeSaveImage(nativePtr, image, fileName);
+	}
+
+	public void freeImage(NormalizedImage image) {
+		nativeFreeImage(nativePtr, image);
+	}
+
 	private native static int nativeInitLicense(String license);
 	
 	private native long nativeCreateInstance();
@@ -47,4 +63,12 @@ public class NativeDocumentScanner {
 	private native ArrayList<DocumentResult> nativeDetectFile(long nativePtr, String fileName);
 
 	private native String nativeGetVersion();
+
+	private native NormalizedImage nativeNormalizeFile(long nativePtr, String fileName);
+
+	private native int nativeSetParameters(long nativePtr, String parameters);
+
+	private native int nativeSaveImage(long nativePtr, NormalizedImage image, String fileName);
+
+	private native void nativeFreeImage(long nativePtr, NormalizedImage image);
 }
