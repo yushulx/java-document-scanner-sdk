@@ -50,10 +50,10 @@ JNIEXPORT jstring JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeGet
 /*
  * Class:     com_dynamsoft_ddn_NativeDocumentScanner
  * Method:    nativeNormalizeFile
- * Signature: (JLjava/lang/String;)Lcom/dynamsoft/ddn/NormalizedImage;
+ * Signature: (JLjava/lang/String;IIIIIIII)Lcom/dynamsoft/ddn/NormalizedImage;
  */
 JNIEXPORT jobject JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeNormalizeFile
-  (JNIEnv *, jobject, jlong, jstring);
+  (JNIEnv *, jobject, jlong, jstring, jint, jint, jint, jint, jint, jint, jint, jint);
 
 /*
  * Class:     com_dynamsoft_ddn_NativeDocumentScanner

@@ -1,4 +1,8 @@
 package com.dynamsoft.ddn;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.*;
+import javax.swing.*;
 
 public class Utils {
 	private static String OS = System.getProperty("os.name").toLowerCase();
@@ -20,4 +24,13 @@ public class Utils {
 		return (OS.indexOf("nux") >= 0);
 		
 	}
+
+	public static void display(BufferedImage image) {
+		JFrame frame = new JFrame();
+		frame.getContentPane().setLayout(new FlowLayout());
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.getContentPane().add(new JLabel(new ImageIcon(image)));
+		frame.pack();
+		frame.setVisible(true);
+	 }
 }

@@ -78,7 +78,6 @@ extern "C"
 
 			void *handler = (void *)ptr;
 			const char *pszFileName = env->GetStringUTFChars(fileName, NULL);
-			printf("Detecting %s", pszFileName);
 
 			DetectedQuadResultArray *pResults = NULL;
     
@@ -138,8 +137,59 @@ extern "C"
 	* Method:    nativeNormalizeFile
 	* Signature: (JLjava/lang/String;)Lcom/dynamsoft/ddn/NormalizedImage;
 	*/
-	JNIEXPORT jobject JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeNormalizeFile(JNIEnv *, jobject, jlong, jstring)
+	JNIEXPORT jobject JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeNormalizeFile(JNIEnv *env, jobject, jlong ptr, jstring fileName, jint x1, jint y1, jint x2, jint y2, jint x3, jint y3, jint x4, jint y4)
 	{
+		if (ptr)
+		{
+
+			jclass normalizedImageClass = env->FindClass("com/dynamsoft/ddn/NormalizedImage");
+			if (NULL == normalizedImageClass)
+				printf("FindClass failed\n");
+
+			jmethodID normalizedImageConstructor = env->GetMethodID(normalizedImageClass, "<init>", "(IIII[BII)V");
+			if (NULL == normalizedImageConstructor)
+				printf("GetMethodID failed\n");
+
+			const char *pszFileName = env->GetStringUTFChars(fileName, NULL);
+			
+			void *handler = (void *)ptr;
+
+			Quadrilateral quad;
+			quad.points[0].coordinate[0] = x1;
+			quad.points[0].coordinate[1] = y1;
+			quad.points[1].coordinate[0] = x2;
+			quad.points[1].coordinate[1] = y2;
+			quad.points[2].coordinate[0] = x3;
+			quad.points[2].coordinate[1] = y3;
+			quad.points[3].coordinate[0] = x4;
+			quad.points[3].coordinate[1] = y4;
+
+			NormalizedImageResult* normalizedResult = NULL;
+
+			int errorCode = DDN_NormalizeFile(handler, pszFileName, "", &quad, &normalizedResult);
+			if (errorCode != DM_OK)
+				printf("%s\r\n", DC_GetErrorString(errorCode));
+
+			ImageData *imageData = normalizedResult->image;
+			
+			int width = imageData->width;
+			int height = imageData->height;
+			int stride = imageData->stride;
+			int format = (int)imageData->format;
+			unsigned char* data = imageData->bytes;
+			int orientation = imageData->orientation;
+			int length = imageData->bytesLength;
+
+			jbyteArray byteArray = env->NewByteArray(length);
+			env->SetByteArrayRegion(byteArray, 0, length, (jbyte *)data);
+			jobject object = env->NewObject(normalizedImageClass, normalizedImageConstructor, width, height, stride, format, byteArray, orientation, length);
+			env->ReleaseStringUTFChars(fileName, pszFileName);
+
+			if (normalizedResult != NULL)
+				DDN_FreeNormalizedImageResult(&normalizedResult);
+
+			return object;
+		}
 		return NULL;
 	}
 

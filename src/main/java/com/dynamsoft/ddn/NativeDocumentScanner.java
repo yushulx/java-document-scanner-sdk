@@ -38,8 +38,8 @@ public class NativeDocumentScanner {
 		return nativeGetVersion();
 	}
 
-	public NormalizedImage normalizeFile(String fileName) {
-		return nativeNormalizeFile(nativePtr, fileName);	
+	public NormalizedImage normalizeFile(String fileName, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4) {
+		return nativeNormalizeFile(nativePtr, fileName, x1, y1, x2, y2, x3, y3, x4, y4);	
 	}
 
 	public int setParameters(String parameters) {
@@ -64,7 +64,7 @@ public class NativeDocumentScanner {
 
 	private native String nativeGetVersion();
 
-	private native NormalizedImage nativeNormalizeFile(long nativePtr, String fileName);
+	private native NormalizedImage nativeNormalizeFile(long nativePtr, String fileName, int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4);
 
 	private native int nativeSetParameters(long nativePtr, String parameters);
 
