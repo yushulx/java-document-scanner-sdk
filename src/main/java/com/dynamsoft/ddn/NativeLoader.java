@@ -15,23 +15,18 @@ public class NativeLoader {
 	
 	
 	private static synchronized boolean loadNativeLibrary(String path, String name) {
-		if (name.contains("ddn")) {
-			File libPath = new File(path, name);
-			if (libPath.exists()) {
-				try {
-					System.load(new File(path, name).getAbsolutePath());
-					return true;
-				} catch (UnsatisfiedLinkError e) {
-					System.err.println(e);
-					return false;
-				}
-
-			} else
+		File libPath = new File(path, name);
+		if (libPath.exists()) {
+			try {
+				System.load(new File(path, name).getAbsolutePath());
+				return true;
+			} catch (UnsatisfiedLinkError e) {
+				System.err.println(e);
 				return false;
-		}
-		else {
+			}
+
+		} else
 			return false;
-		}
 	}
 
 	private static boolean extractResourceFiles(String ddnNativeLibraryPath, String ddnNativeLibraryName,
@@ -62,7 +57,6 @@ public class NativeLoader {
 			"DynamicPdfCorex64.dll",
 			"DynamicPdfx64.dll",
 			"DynamsoftCorex64.dll",
-			"DynamsoftDocumentNormalizerx64.dll",
 			"DynamsoftImageProcessingx64.dll",
 			"DynamsoftIntermediateResultx64.dll",
 			"msvcp140.dll",
@@ -71,7 +65,7 @@ public class NativeLoader {
 			"ucrtbase.dll",
 			"vccorlib140.dll",
 			"vcomp140.dll",
-			"vcruntime140.dll", "ddn.dll"};
+			"vcruntime140.dll", "DynamsoftDocumentNormalizerx64.dll", "ddn.dll"};
 		}
 		else if (Utils.isLinux()) {
 			filenames = new String[] {"libddn.so", "libDynamicImage.so", "libDynamicPdf.so", "libDynamicPdfCore.so", "libDynamsoftCore.so", "libDynamsoftDocumentNormalizer.so", "libDynamsoftImageProcessing.so", "libDynamsoftIntermediateResult.so"};
