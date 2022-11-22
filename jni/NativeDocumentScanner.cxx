@@ -218,20 +218,78 @@ extern "C"
 	/*
 	* Class:     com_dynamsoft_ddn_NativeDocumentScanner
 	* Method:    nativeSaveImage
-	* Signature: (JLcom/dynamsoft/ddn/NormalizedImage;Ljava/lang/String;)I
+	* Signature: (Lcom/dynamsoft/ddn/NormalizedImage;Ljava/lang/String;)I
 	*/
-	JNIEXPORT jint JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeSaveImage(JNIEnv *, jobject, jlong, jobject, jstring)
+	JNIEXPORT jint JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeSaveImage(JNIEnv *env, jobject, jobject obj, jstring fileName)
 	{
-		return 0;
-	}
+		jclass normalizedImageClass = env->FindClass("com/dynamsoft/ddn/NormalizedImage");
+		if (NULL == normalizedImageClass)
+			printf("FindClass failed\n");
 
-	/*
-	* Class:     com_dynamsoft_ddn_NativeDocumentScanner
-	* Method:    nativeFreeImage
-	* Signature: (JLcom/dynamsoft/ddn/NormalizedImage;)V
-	*/
-	JNIEXPORT void JNICALL Java_com_dynamsoft_ddn_NativeDocumentScanner_nativeFreeImage(JNIEnv *, jobject, jlong, jobject)
-	{
+		jfieldID fid = env->GetFieldID(normalizedImageClass, "width", "I");
+		if (NULL == fid)
+			printf("Get width failed\n");
+
+		jint width = env->GetIntField(obj, fid);
+
+		fid = env->GetFieldID(normalizedImageClass, "height", "I");
+		if (NULL == fid)
+			printf("Ge height failed\n");
+
+		jint height = env->GetIntField(obj, fid);
+
+		fid = env->GetFieldID(normalizedImageClass, "stride", "I");
+		if (NULL == fid)
+			printf("Get stride failed\n");
+
+		jint stride = env->GetIntField(obj, fid);
+
+		fid = env->GetFieldID(normalizedImageClass, "format", "I");
+		if (NULL == fid)
+			printf("Get format failed\n");
+
+		jint format = env->GetIntField(obj, fid);
+
+		fid = env->GetFieldID(normalizedImageClass, "data", "[B");
+		if (NULL == fid)
+			printf("Get data failed\n");
+
+		jbyteArray byteArray = (jbyteArray)env->GetObjectField(obj, fid);
+		jbyte *bytes = env->GetByteArrayElements(byteArray, NULL);
+
+		fid = env->GetFieldID(normalizedImageClass, "orientation", "I");
+		if (NULL == fid)
+			printf("Get orientation failed\n");
+
+		jint orientation = env->GetIntField(obj, fid);
+
+		fid = env->GetFieldID(normalizedImageClass, "length", "I");
+		if (NULL == fid)
+			printf("Get length failed\n");
+
+		jint length = env->GetIntField(obj, fid);
+
+		ImageData data;
+		data.bytes = (unsigned char *)bytes;
+		data.width = width;
+		data.height = height;
+		data.stride = stride;
+		data.format = (ImagePixelFormat)format;
+		data.orientation = orientation;
+		data.bytesLength = length;
+
+		const char *pszFileName = env->GetStringUTFChars(fileName, NULL);
+
+		NormalizedImageResult normalizedResult;
+		normalizedResult.image = &data;
+		int ret = NormalizedImageResult_SaveToFile(&normalizedResult, pszFileName);
+		if (ret != DM_OK)
+			printf("NormalizedImageResult_SaveToFile: %s\r\n", DC_GetErrorString(ret));
+
+		env->ReleaseStringUTFChars(fileName, pszFileName);
+		env->ReleaseByteArrayElements(byteArray, bytes, 0);
+
+		return ret;
 	}
 	
 #ifdef __cplusplus

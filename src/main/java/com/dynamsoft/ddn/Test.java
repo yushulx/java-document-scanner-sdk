@@ -79,6 +79,7 @@ public class Test {
 						if (normalizedImage != null) {
 							normalizedImage.saveImage("jpg", "normalized.jpg");
 							System.out.println("Saved normalized image to normalized.jpg");
+							scanner.saveImage(normalizedImage, "normalized.pdf");
 						}
 					}
 					

@@ -47,11 +47,7 @@ public class NativeDocumentScanner {
 	}
 
 	public int saveImage(NormalizedImage image, String fileName) {
-		return nativeSaveImage(nativePtr, image, fileName);
-	}
-
-	public void freeImage(NormalizedImage image) {
-		nativeFreeImage(nativePtr, image);
+		return nativeSaveImage(image, fileName);
 	}
 
 	private native static int nativeInitLicense(String license);
@@ -68,7 +64,5 @@ public class NativeDocumentScanner {
 
 	private native int nativeSetParameters(long nativePtr, String parameters);
 
-	private native int nativeSaveImage(long nativePtr, NormalizedImage image, String fileName);
-
-	private native void nativeFreeImage(long nativePtr, NormalizedImage image);
+	private native int nativeSaveImage(NormalizedImage image, String fileName);
 }
