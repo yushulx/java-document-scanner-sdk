@@ -19,7 +19,7 @@ public class Test {
 			int ret = NativeDocumentScanner.setLicense("DLS2eyJoYW5kc2hha2VDb2RlIjoiMjAwMDAxLTE2NDk4Mjk3OTI2MzUiLCJvcmdhbml6YXRpb25JRCI6IjIwMDAwMSIsInNlc3Npb25QYXNzd29yZCI6IndTcGR6Vm05WDJrcEQ5YUoifQ==");
 			NativeDocumentScanner scanner = new NativeDocumentScanner();
 			System.out.println("Version number: " + scanner.getVersion());
-			ret = scanner.setParameters(Template.color);
+			ret = scanner.setParameters(Template.binary);
 			System.out.println("Set parameters: " + ret);
 			ArrayList<DocumentResult> results = (ArrayList<DocumentResult>)scanner.detectFile(fileName);
 			if (results != null) {
@@ -46,6 +46,7 @@ public class Test {
 						NormalizedImage normalizedImage = scanner.normalizeFile(fileName, result.x1, result.y1, result.x2, result.y2, result.x3, result.y3, result.x4, result.y4);
 						if (normalizedImage != null) {
 							System.out.println("Normalized image width: " + normalizedImage.width);
+							normalizedImage.saveImage("jpg", "binary.jpg");
 						}
 					}
 					
