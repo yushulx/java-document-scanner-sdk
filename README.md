@@ -39,6 +39,6 @@ mvn package
 ## Test the Jar Package for Document Scanning
 
 ```
-java -cp target/ddn-1.0.0.jar com.dynamsoft.ddn.Test images/sample-image.png
+java -cp target/ddn-1.0.0.jar com.dynamsoft.ddn.Test images/sample-image.png <optional: template.json> <optional: license key>
 ```
 
