@@ -25,10 +25,11 @@ public class Utils {
 		
 	}
 
-	public static void display(BufferedImage image) {
+	public static void display(BufferedImage image, String title) {
 		JFrame frame = new JFrame();
 		frame.getContentPane().setLayout(new FlowLayout());
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setTitle(title);
 		frame.getContentPane().add(new JLabel(new ImageIcon(image)));
 		frame.pack();
 		frame.setVisible(true);

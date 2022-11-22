@@ -57,7 +57,7 @@ public class NormalizedImage {
         }
         
         image.setRGB(0, 0, width, height, pixels, 0, width);
-
+        Utils.display(image, "Normalized Image");
         try {
             ImageIO.write(image, formatName, new java.io.File(fileName));
         } catch (Exception e) {

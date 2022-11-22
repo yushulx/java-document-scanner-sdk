@@ -83,7 +83,6 @@ public class Test {
 					}
 					
 					graphics2D.dispose();
-					// Utils.display(image);
 
 					boolean success = ImageIO.write(image, "png", new java.io.File("document-edge-detection.png"));
 					if (success) {
@@ -92,6 +91,8 @@ public class Test {
 					else {
 						System.out.println("Failed to save the image.");
 					}
+
+					Utils.display(image, "Document Edge Detection");
 
 				}
 				catch (Exception e)

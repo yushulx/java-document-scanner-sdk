@@ -42,3 +42,4 @@ mvn package
 java -cp target/ddn-1.0.0.jar com.dynamsoft.ddn.Test images/sample-image.png <optional: template.json> <optional: license key>
 ```
 
+![Java document scanner: document edge detection and normalization](https://www.dynamsoft.com/codepool/img/2022/11/java-document-scanner-edge-detection-normalization.png)
