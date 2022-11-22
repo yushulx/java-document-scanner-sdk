@@ -21,7 +21,7 @@ cmake -DCMAKE_GENERATOR_PLATFORM=x64 ..
 cmake --build . --config Release --target install
 ```
 
-### Linux & macOS
+### Linux 
 
 ```
 mkdir build
