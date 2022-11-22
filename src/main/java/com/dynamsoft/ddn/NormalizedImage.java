@@ -26,9 +26,10 @@ public class NormalizedImage {
         BufferedImage image = null;
         byte[] imageData = null;
         int[] pixels = new int[width * height];
+        image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         
         if (format == ImagePixelFormat.IPF_RGB_888) {
-            image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+            
             imageData = data;
 
             for (int i = 0; i < width * height; i++) {
@@ -39,7 +40,6 @@ public class NormalizedImage {
             }
         }
         else if (format == ImagePixelFormat.IPF_GRAYSCALED) {
-            image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
             imageData = data;
 
             for (int i = 0; i < width * height; i++) {
@@ -48,7 +48,6 @@ public class NormalizedImage {
             }
         }
         else if (format == ImagePixelFormat.IPF_BINARY) {
-            image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
             imageData = binary2Grayscale();
 
             for (int i = 0; i < width * height; i++) {
@@ -58,27 +57,12 @@ public class NormalizedImage {
         }
         
         image.setRGB(0, 0, width, height, pixels, 0, width);
+
         try {
             ImageIO.write(image, formatName, new java.io.File(fileName));
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        // image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY);
-        // image.getRaster().setDataElements(0, 0, width, height, data);
-        // try {
-        //     ImageIO.write(image, formatName, new java.io.File(fileName));
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
-
-        // image = new BufferedImage(width, height, BufferedImage.TYPE_BYTE_BINARY);
-        // image.getRaster().setDataElements(0, 0, width, height, data);
-        // try {
-        //     ImageIO.write(image, formatName, new java.io.File(fileName));
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
     }
 
     public class ImagePixelFormat
@@ -97,20 +81,6 @@ public class NormalizedImage {
         public final static int IPF_ABGR_16161616 = 11; 
         public final static int IPF_BGR_88 = 12;
     }
-
-//     public void Save(string filename)
-//     {
-//         if (_dataPtr != IntPtr.Zero)
-//         {
-//             NormalizedImageResult? image = (NormalizedImageResult?)Marshal.PtrToStructure(_dataPtr, typeof(NormalizedImageResult));
-//             if (image != null)
-//             {
-//                 int ret = DDN_SaveImageDataToFile(image.Value.ImageData, filename);
-
-//             }
-
-//         }
-//     }
 
     private byte[] binary2Grayscale()
     {
