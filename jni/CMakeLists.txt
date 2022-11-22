@@ -49,18 +49,13 @@ endif()
 
 # Set installation directory
 set(CMAKE_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}/../src/main/")
-set(ECLIPSE_PATH "java/com/dynamsoft/ddn/native")
-set(MAVEN_PATH "resources/com/dynamsoft/ddn/native")
+set(LIBRARY_PATH "java/com/dynamsoft/ddn/native")
 if(WINDOWS)
-    install (DIRECTORY "${PROJECT_SOURCE_DIR}/lib/win/" DESTINATION "${CMAKE_INSTALL_PREFIX}${ECLIPSE_PATH}/win")
-    install (DIRECTORY "${PROJECT_SOURCE_DIR}/lib/win/" DESTINATION "${CMAKE_INSTALL_PREFIX}${MAVEN_PATH}/win")
-    install (TARGETS ddn DESTINATION "${CMAKE_INSTALL_PREFIX}${ECLIPSE_PATH}/win")
-    install (TARGETS ddn DESTINATION "${CMAKE_INSTALL_PREFIX}${MAVEN_PATH}/win")
+    install (DIRECTORY "${PROJECT_SOURCE_DIR}/lib/win/" DESTINATION "${CMAKE_INSTALL_PREFIX}${LIBRARY_PATH}/win")
+    install (TARGETS ddn DESTINATION "${CMAKE_INSTALL_PREFIX}${LIBRARY_PATH}/win")
 elseif(LINUX)
-    install (DIRECTORY "${PROJECT_SOURCE_DIR}/lib/linux/" DESTINATION "${CMAKE_INSTALL_PREFIX}${ECLIPSE_PATH}/linux")
-    install (DIRECTORY "${PROJECT_SOURCE_DIR}/lib/linux/" DESTINATION "${CMAKE_INSTALL_PREFIX}${MAVEN_PATH}/linux")
-    install (TARGETS ddn DESTINATION "${CMAKE_INSTALL_PREFIX}${ECLIPSE_PATH}/linux")
-    install (TARGETS ddn DESTINATION "${CMAKE_INSTALL_PREFIX}${MAVEN_PATH}/linux")
+    install (DIRECTORY "${PROJECT_SOURCE_DIR}/lib/linux/" DESTINATION "${CMAKE_INSTALL_PREFIX}${LIBRARY_PATH}/linux")
+    install (TARGETS ddn DESTINATION "${CMAKE_INSTALL_PREFIX}${LIBRARY_PATH}/linux")
 endif()
 
 
