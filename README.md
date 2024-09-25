@@ -2,7 +2,7 @@
 The repository is a Java wrapper for [Dynamsoft Document Normalizer](https://www.dynamsoft.com/document-normalizer/docs/introduction/?ver=latest). It supports document edge detection and document normalization. 
 
 ## License Key
-Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense/?product=ddn).
+Apply for a [30-day free trial license](https://www.dynamsoft.com/customer/license/trialLicense/?product=dcv&package=cross-platform).
 
 ## JNI Header Generation
 
